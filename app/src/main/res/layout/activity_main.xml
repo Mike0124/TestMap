@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <com.amap.api.maps.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </com.amap.api.maps.MapView>
+
+    <Button
+        android:id="@+id/scan_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="80dp"
+        android:text="扫码立享"
+        android:padding="40dp"
+        android:background="@drawable/shape"
+        android:textSize="30dp">
+    </Button>
+
+    <ImageButton
+        android:id="@+id/Login"
+        android:layout_width="83dp"
+        android:layout_height="94dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="100dp"
+        android:background="@android:color/transparent"
+        android:src="@mipmap/user">
+    </ImageButton>
+
+
+
+</RelativeLayout>
