@@ -25,11 +25,9 @@ import com.uuzuche.lib_zxing.activity.CodeUtils;
 import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 public class MainActivity extends AppCompatActivity{
-
     private Button mscanbutton;
     private ImageButton mloginbutton;
     MapView mapView = null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -122,5 +120,9 @@ public class MainActivity extends AppCompatActivity{
         super.onSaveInstanceState(outState);      //保存地图
         mapView.onSaveInstanceState(outState);
     }
-
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        //可在此继续其他操作。
+    }
 }
