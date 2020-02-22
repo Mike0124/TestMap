@@ -72,18 +72,20 @@ public class MainActivity extends AppCompatActivity{
                 }
                 else{
                     Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
-                    startActivityForResult(intent, REQUEST_CODE_SCAN);
                     ZxingConfig config = new ZxingConfig();
                     config.setShowAlbum(false); //是否显示相册
                     config.setFullScreenScan(false);//是否全屏扫描  默认为true  设为false则只会在扫描框中扫描
+                    intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
+                    startActivityForResult(intent, REQUEST_CODE_SCAN);
                 }
             }
             else {
                 Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
-                startActivityForResult(intent, REQUEST_CODE_SCAN);
                 ZxingConfig config = new ZxingConfig();
                 config.setShowAlbum(false); //是否显示相册
                 config.setFullScreenScan(false);//是否全屏扫描  默认为true  设为false则只会在扫描框中扫描
+                intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
+                startActivityForResult(intent, REQUEST_CODE_SCAN);
             }
             }
         });
