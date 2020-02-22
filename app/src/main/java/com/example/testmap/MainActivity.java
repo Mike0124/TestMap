@@ -9,10 +9,10 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 
 import com.amap.api.maps.AMap;
@@ -20,14 +20,15 @@ import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.MapView;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.example.testmap.ui.login.LoginActivity;
-import com.uuzuche.lib_zxing.activity.CaptureActivity;
-import com.uuzuche.lib_zxing.activity.CodeUtils;
-import com.uuzuche.lib_zxing.activity.ZXingLibrary;
+import com.yzq.zxinglibrary.android.CaptureActivity;
+import com.yzq.zxinglibrary.bean.ZxingConfig;
+import com.yzq.zxinglibrary.common.Constant;
 
 public class MainActivity extends AppCompatActivity{
     private Button mscanbutton;
     private ImageButton mloginbutton;
     MapView mapView = null;
+    private int REQUEST_CODE_SCAN = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +60,6 @@ public class MainActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
-        ZXingLibrary.initDisplayOpinion(this);
         mscanbutton = findViewById(R.id.scan_button);
         mscanbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,12 +72,18 @@ public class MainActivity extends AppCompatActivity{
                 }
                 else{
                     Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
-                    startActivityForResult(intent,1);
+                    startActivityForResult(intent, REQUEST_CODE_SCAN);
+                    ZxingConfig config = new ZxingConfig();
+                    config.setShowAlbum(false); //是否显示相册
+                    config.setFullScreenScan(false);//是否全屏扫描  默认为true  设为false则只会在扫描框中扫描
                 }
             }
             else {
                 Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
-                startActivityForResult(intent,1);
+                startActivityForResult(intent, REQUEST_CODE_SCAN);
+                ZxingConfig config = new ZxingConfig();
+                config.setShowAlbum(false); //是否显示相册
+                config.setFullScreenScan(false);//是否全屏扫描  默认为true  设为false则只会在扫描框中扫描
             }
             }
         });
@@ -87,19 +93,14 @@ public class MainActivity extends AppCompatActivity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (data != null) {
-                Bundle bundle = data.getExtras();
-                if (bundle == null) {
-                    return;
-                }
-                if (bundle.getInt(CodeUtils.RESULT_TYPE) == CodeUtils.RESULT_SUCCESS) {
-                    //获取到扫描的结果
-                    String result = bundle.getString(CodeUtils.RESULT_STRING);
-                    Log.d("res:",result);
+            // 扫描二维码/条码回传
+            if (requestCode == REQUEST_CODE_SCAN && resultCode == RESULT_OK) {
+                String content = data.getStringExtra(Constant.CODED_CONTENT);
+                Toast.makeText(this, "扫码成功，结果："+content, Toast.LENGTH_SHORT).show();
                 }
             }
         }
-    }
+
     @Override
     protected  void onResume(){
         super.onResume();       //重新绘制加载地图
