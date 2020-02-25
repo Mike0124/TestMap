@@ -100,9 +100,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
                     startActivityForResult(intent, REQUEST_CODE_SCAN);
                 }
+                break;
             case R.id.Login:
                 Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
+                break;
         }
     }
 
