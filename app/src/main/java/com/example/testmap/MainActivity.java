@@ -10,6 +10,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 
@@ -22,7 +24,9 @@ import com.yzq.zxinglibrary.android.CaptureActivity;
 import com.yzq.zxinglibrary.bean.ZxingConfig;
 import com.yzq.zxinglibrary.common.Constant;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity {
+    private Button mscanbutton;
+    private ImageButton mloginbutton;
     private int REQUEST_CODE_SCAN = 1;
     MapView mapView = null;
     private Bundle savedInstanceState;
@@ -32,8 +36,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);//设置对应的XML布局文件
         iniView();//初始化地图布局
-        findViewById(R.id.scan_button).setOnClickListener(this);//扫描二维码
-        findViewById(R.id.Login).setOnClickListener(this);//登录
+        mscanbutton = findViewById(R.id.scan_button);
+        mscanbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ZxingConfig config = new ZxingConfig();
+                config.setShowAlbum(false); //是否显示相册
+                config.setFullScreenScan(false);//是否全屏扫描  默认为true  设为false则只会在扫描框中扫描
+                if (Build.VERSION.SDK_INT > 22) {        //判断手机版本是否在6.0以上，如在以上则需要动态申请权限
+                    if (ContextCompat.checkSelfPermission(MainActivity.this,
+                            Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(MainActivity.this,
+                                new String[]{Manifest.permission.CAMERA}, 1);
+                    } else {
+                        Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
+                        intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
+                        startActivityForResult(intent, REQUEST_CODE_SCAN);
+                    }
+                } else {
+                    Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
+                    intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
+                    startActivityForResult(intent, REQUEST_CODE_SCAN);
+                }
+            }
+        });//扫描二维码
+
+        mloginbutton = findViewById(R.id.Login);
+        mloginbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                startActivity(intent);
+            }
+        });//登录
     }
 
     @Override
@@ -76,36 +111,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         //可在此继续其他操作。
-    }
-
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.scan_button:
-                ZxingConfig config = new ZxingConfig();
-                config.setShowAlbum(false); //是否显示相册
-                config.setFullScreenScan(false);//是否全屏扫描  默认为true  设为false则只会在扫描框中扫描
-                if (Build.VERSION.SDK_INT > 22) {        //判断手机版本是否在6.0以上，如在以上则需要动态申请权限
-                    if (ContextCompat.checkSelfPermission(MainActivity.this,
-                            Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(MainActivity.this,
-                                new String[]{Manifest.permission.CAMERA}, 1);
-                    } else {
-                        Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
-                        intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
-                        startActivityForResult(intent, REQUEST_CODE_SCAN);
-                    }
-                } else {
-                    Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
-                    intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
-                    startActivityForResult(intent, REQUEST_CODE_SCAN);
-                }
-                break;
-            case R.id.Login:
-                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
-                startActivity(intent);
-                break;
-        }
     }
 
     public void iniView() {
