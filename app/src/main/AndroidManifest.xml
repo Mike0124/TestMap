@@ -40,6 +40,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Informationactivity"></activity>
+        <activity android:name=".AmendActivity"></activity>
+        <activity android:name=".FapiaoActivity"></activity>
+        <activity android:name=".HezuowoshouActivity"></activity>
+        <activity android:name=".XiaofeiActivity"></activity>
+        <activity android:name=".WendangActivity"></activity>
+        <activity android:name=".TousuActivity"></activity>
     </application>
 
 </manifest>
