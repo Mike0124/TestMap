@@ -13,5 +13,12 @@
     <string name="notifyMsg">当前应用缺少必要权限。\n\n请点击\"设置\"-\"权限\"-打开所需权限。</string>
     <string name="setting">设置</string>
     <string name="cancel">取消</string>
+    <string name="amend">我要报修</string>
+    <string name="fapiao">开具发票</string>
+    <string name="hezuowoshou">加盟合作</string>
+    <string name="wendang">常见问题</string>
+    <string name="tousu">我要投诉</string>
+    <string name="xiaofei">查看消费</string>
+    <string name="welcome_inform">欢迎您</string>
 
 </resources>
