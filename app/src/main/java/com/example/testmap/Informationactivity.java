@@ -29,7 +29,7 @@ public class Informationactivity extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_information);
         mbtnxiaofei = findViewById(R.id.xiaofei);
@@ -47,25 +47,25 @@ public class Informationactivity extends AppCompatActivity {
         drawable_amend = getResources().getDrawable(R.mipmap.amend);
         drawable_wendang = getResources().getDrawable(R.mipmap.wendang);
         drawable_hezuowoshou = getResources().getDrawable(R.mipmap.hezuowoshou);
-        drawable_right.setBounds(0,0,100,100);
-        drawable_user.setBounds(0,0,250,250);
-        drawable_xiaofei.setBounds(0,0,100,100);
-        drawable_fapiao.setBounds(0,0,100,100);
-        drawable_tousu.setBounds(0,0,100,100);
-        drawable_amend.setBounds(0,0,100,100);
-        drawable_wendang.setBounds(0,0,100,100);
-        drawable_hezuowoshou.setBounds(0,0,100,100);
-        mbtnusertext.setCompoundDrawables(null, null, drawable_user,null);
-        mbtnxiaofei.setCompoundDrawables(drawable_xiaofei,null,drawable_right,null);
-        mbtnfapiao.setCompoundDrawables(drawable_fapiao,null,drawable_right,null);
-        mbtntousu.setCompoundDrawables(drawable_tousu,null,drawable_right,null);
-        mbtnamend.setCompoundDrawables(drawable_amend,null,drawable_right,null);
-        mbtnwendang.setCompoundDrawables(drawable_wendang,null,drawable_right,null);
-        mbtnhezuowoshou.setCompoundDrawables(drawable_hezuowoshou,null,drawable_right,null);
+        drawable_right.setBounds(0, 0, 100, 100);
+        drawable_user.setBounds(0, 0, 250, 250);
+        drawable_xiaofei.setBounds(0, 0, 100, 100);
+        drawable_fapiao.setBounds(0, 0, 100, 100);
+        drawable_tousu.setBounds(0, 0, 100, 100);
+        drawable_amend.setBounds(0, 0, 100, 100);
+        drawable_wendang.setBounds(0, 0, 100, 100);
+        drawable_hezuowoshou.setBounds(0, 0, 100, 100);
+        mbtnusertext.setCompoundDrawables(null, null, drawable_user, null);
+        mbtnxiaofei.setCompoundDrawables(drawable_xiaofei, null, drawable_right, null);
+        mbtnfapiao.setCompoundDrawables(drawable_fapiao, null, drawable_right, null);
+        mbtntousu.setCompoundDrawables(drawable_tousu, null, drawable_right, null);
+        mbtnamend.setCompoundDrawables(drawable_amend, null, drawable_right, null);
+        mbtnwendang.setCompoundDrawables(drawable_wendang, null, drawable_right, null);
+        mbtnhezuowoshou.setCompoundDrawables(drawable_hezuowoshou, null, drawable_right, null);
         setListeners();
     }
 
-    private void setListeners(){
+    private void setListeners() {
         OnClick onClick = new OnClick();
         mbtnxiaofei.setOnClickListener(onClick);
         mbtnfapiao.setOnClickListener(onClick);
@@ -75,12 +75,12 @@ public class Informationactivity extends AppCompatActivity {
         mbtnhezuowoshou.setOnClickListener(onClick);
     }
 
-    private class OnClick implements View.OnClickListener{
+    private class OnClick implements View.OnClickListener {
 
         @Override
         public void onClick(View v) {
             Intent intent = null;
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.xiaofei:
                     intent = new Intent(Informationactivity.this, XiaofeiActivity.class);
                     break;

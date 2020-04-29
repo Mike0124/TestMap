@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".FapiaoActivity">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        android:src="@mipmap/user_not_login"
         android:background="#87CEEB"
-        ></androidx.appcompat.widget.AppCompatImageView>
+        android:src="@mipmap/user_not_login"></androidx.appcompat.widget.AppCompatImageView>
 
     <TextView
         android:layout_width="match_parent"

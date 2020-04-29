@@ -19,23 +19,23 @@ import static com.amap.api.maps.model.BitmapDescriptorFactory.getContext;
 
 public class HezuowoshouActivity extends AppCompatActivity {
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hezuowoshou);
         TextView textView = findViewById(R.id.hezuowoshou_text);
         textView.setText(gethttpresult("http://zhixiaogai.com/api/query_league_cooperation"));
     }
 
-    public static String gethttpresult(String urlStr){
+    public static String gethttpresult(String urlStr) {
         try {
-            URL url=new URL(urlStr);
-            HttpURLConnection connect=(HttpURLConnection)url.openConnection();
+            URL url = new URL(urlStr);
+            HttpURLConnection connect = (HttpURLConnection) url.openConnection();
             connect.setRequestMethod("GET");
             connect.setConnectTimeout(5000);
             connect.setReadTimeout(5000);
             connect.connect();
-            if (connect.getResponseCode() == 200){
-                InputStream input=connect.getInputStream();
+            if (connect.getResponseCode() == 200) {
+                InputStream input = connect.getInputStream();
                 BufferedReader in = new BufferedReader(new InputStreamReader(input));
                 String line = null;
                 System.out.println(connect.getResponseCode());
@@ -44,8 +44,7 @@ public class HezuowoshouActivity extends AppCompatActivity {
                     sb.append(line);
                 }
                 return sb.toString();
-            }
-            else{
+            } else {
                 return "meiyou";
             }
         } catch (Exception e) {

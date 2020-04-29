@@ -8,21 +8,19 @@
     <com.amap.api.maps.MapView
         android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </com.amap.api.maps.MapView>
+        android:layout_height="match_parent"></com.amap.api.maps.MapView>
 
     <Button
         android:id="@+id/scan_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
         android:layout_marginBottom="80dp"
-        android:text="扫码立享"
-        android:padding="40dp"
         android:background="@drawable/button_scan"
-        android:textSize="30dp">
-    </Button>
+        android:padding="40dp"
+        android:text="扫码立享"
+        android:textSize="30dp"></Button>
 
     <ImageButton
         android:id="@+id/Login"
@@ -32,9 +30,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="100dp"
         android:background="@android:color/transparent"
-        android:src="@mipmap/user">
-    </ImageButton>
-
+        android:src="@mipmap/user"></ImageButton>
 
 
 </RelativeLayout>
