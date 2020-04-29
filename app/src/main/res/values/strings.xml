@@ -20,5 +20,6 @@
     <string name="tousu">我要投诉</string>
     <string name="xiaofei">查看消费</string>
     <string name="welcome_inform">欢迎您</string>
+    <string name="wuxiaofei">您暂时还没有消费记录哦</string>
 
 </resources>

@@ -48,7 +48,7 @@ public class Informationactivity extends AppCompatActivity {
         drawable_wendang = getResources().getDrawable(R.mipmap.wendang);
         drawable_hezuowoshou = getResources().getDrawable(R.mipmap.hezuowoshou);
         drawable_right.setBounds(0,0,100,100);
-        drawable_user.setBounds(200,0,350,150);
+        drawable_user.setBounds(0,0,250,250);
         drawable_xiaofei.setBounds(0,0,100,100);
         drawable_fapiao.setBounds(0,0,100,100);
         drawable_tousu.setBounds(0,0,100,100);
