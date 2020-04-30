@@ -119,6 +119,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
                 checkPermissions(needPermissions);
             }
         }
+        initLocationService();//初始化高德地图和定位
     }
 
     @Override
