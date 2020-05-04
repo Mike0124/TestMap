@@ -21,5 +21,8 @@
     <string name="xiaofei">查看消费</string>
     <string name="welcome_inform">欢迎您</string>
     <string name="wuxiaofei">您暂时还没有消费记录哦</string>
-
+    <string name="tousu_choose">请选择您的投诉类型</string>
+    <string name="tousu_question">设备故障\n如：电机卡壳、夜灯损坏、无法升温...</string>
+    <string name="tousu_zhifu">支付故障\n如：无法支付、扣款异常...</string>
+    <string name="tousu_qita">其它原因\n敬请您向我们提供宝贵意见</string>
 </resources>

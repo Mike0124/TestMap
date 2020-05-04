@@ -6,4 +6,62 @@
     android:orientation="vertical"
     tools:context=".TousuActivity">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="#87CEEB"
+        android:src="@mipmap/user_not_login"></ImageView>
+
+    <TextView
+        android:id="@+id/tousu_text"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="@string/tousu_choose"
+        android:textColor="#00bfff"
+        android:textSize="35sp"></TextView>
+
+    <Button
+        android:id="@+id/tousu_xitongguzhang"
+        android:layout_width="match_parent"
+        android:layout_height="115dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/textview_information"
+        android:drawableLeft="@mipmap/xitongguzhang"
+        android:text="@string/tousu_question"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"></Button>
+
+    <Button
+        android:id="@+id/tousu_zhifu"
+        android:layout_width="match_parent"
+        android:layout_height="115dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/textview_information"
+        android:drawableLeft="@mipmap/zhifu"
+        android:text="@string/tousu_zhifu"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"></Button>
+
+    <Button
+        android:id="@+id/tousu_qita"
+        android:layout_width="match_parent"
+        android:layout_height="115dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/textview_information"
+        android:drawableLeft="@mipmap/qita"
+        android:text="@string/tousu_qita"
+        android:textColor="@android:color/white"
+        android:textSize="25sp"></Button>
+
 </LinearLayout>

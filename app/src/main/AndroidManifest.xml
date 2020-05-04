@@ -47,6 +47,7 @@
         <activity android:name=".XiaofeiActivity"></activity>
         <activity android:name=".WendangActivity"></activity>
         <activity android:name=".TousuActivity"></activity>
+        <activity android:name=".TousuActivity_edit" />
     </application>
 
 </manifest>
