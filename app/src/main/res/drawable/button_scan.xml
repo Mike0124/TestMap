@@ -5,11 +5,7 @@
             android:shape="rectangle">
             <solid android:color="#87CEEB"></solid>
             <corners android:radius="150dp"></corners>
-            <!--    <padding-->
-            <!--        android:bottom="10dp"-->
-            <!--        android:left="10dp"-->
-            <!--        android:right="10dp"-->
-            <!--        android:top="10dp"></padding>-->
+            <padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="10dp" />
         </shape>
     </item>
     <item android:state_pressed="true">
@@ -17,6 +13,7 @@
             android:shape="rectangle">
             <solid android:color="#5F84A2"></solid>
             <corners android:radius="150dp"></corners>
+<!--            <padding android:bottom="10dp" android:left="10dp" android:right="10dp" android:top="10dp"><-->
         </shape>
     </item>
 </selector>

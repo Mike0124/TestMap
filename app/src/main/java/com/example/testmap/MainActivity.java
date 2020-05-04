@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -25,13 +26,19 @@ import com.amap.api.maps.AMap;
 import com.amap.api.maps.CameraUpdateFactory;
 import com.amap.api.maps.LocationSource;
 import com.amap.api.maps.MapView;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.Marker;
+import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
+import com.example.testmap.JavaBean.Site;
 import com.yzq.zxinglibrary.android.CaptureActivity;
 import com.yzq.zxinglibrary.bean.ZxingConfig;
 import com.yzq.zxinglibrary.common.Constant;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LocationSource, AMapLocationListener {
@@ -42,7 +49,9 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     private int REQUEST_CODE_SCAN = 1;
 
     //初始化地图的值
+    AMap aMap = null;
     MapView mapView = null;
+    List<Site> siteList = new ArrayList<>();//设备地点信息ArrayList
     private Bundle savedInstanceState;
     public AMapLocationClientOption mLocationOption = null;
     public AMapLocationClient mLocationClient = null;
@@ -119,7 +128,11 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
                 checkPermissions(needPermissions);
             }
         }
-        initLocationService();//初始化高德地图和定位
+//        initLocationService();//初始化高德地图和定位
+        aMap.setLocationSource(this);
+        // 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
+        aMap.setMyLocationEnabled(true);
+        //连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模
     }
 
     @Override
@@ -151,14 +164,17 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     }
 
     public void initLocationService() { //初始化高德地图和定位
+        //定义了一个地图view
         mapView = (MapView) findViewById(R.id.map);
-        mapView.onCreate(savedInstanceState);// 此方法必须重写
-        AMap aMap;
-        aMap = mapView.getMap();
+        mapView.onCreate(savedInstanceState);// 此方法须覆写，虚拟机需要在很多情况下保存地图绘制的当前状态。·
+        //初始化地图控制器对象
+        if (aMap == null) {
+            aMap = mapView.getMap();
+        }
         //设置地图的放缩级别
         aMap.moveCamera(CameraUpdateFactory.zoomTo(13));
         MyLocationStyle myLocationStyle = new MyLocationStyle();
-        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATION_ROTATE);
+        myLocationStyle.myLocationType(MyLocationStyle.LOCATION_TYPE_LOCATE);
         //设置连续定位模式下的定位间隔，只在连续定位模式下生效，单次定位模式下不会生效。单位为毫秒。
         myLocationStyle.interval(2000);
         myLocationStyle.strokeColor(Color.BLACK);
@@ -167,12 +183,52 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         //设置定位蓝点的Style
         aMap.setMyLocationStyle(myLocationStyle);
         //设置默认定位按钮是否显示。
-        aMap.getUiSettings().setMyLocationButtonEnabled(true);
+        aMap.getUiSettings().setMyLocationButtonEnabled(true);//去掉高德地图右下角隐藏的缩放按钮
+        aMap.getUiSettings().setZoomControlsEnabled(false);
         aMap.setLocationSource(this);
-        aMap.getUiSettings().setMyLocationButtonEnabled(true);
         // 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
         aMap.setMyLocationEnabled(true);
         //连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
+
+        Site orientalPearl = new Site("东方明珠", null, null, 121.499717, 31.239702);
+        siteList.add(orientalPearl);
+        Site SHU = new Site("上海大学", null, null,121.393603,31.315929);
+        siteList.add(SHU);
+        Iterator<Site> it=siteList.iterator();
+        while(it.hasNext()){
+            Site site = it.next();
+            LatLng latLng = new LatLng(site.getLatitude(),site.getLongitude());
+            MarkerOptions markerOption = new MarkerOptions();
+            markerOption.position(latLng);
+            markerOption.title(site.getName());
+            markerOption.snippet(null);
+            markerOption.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
+                    .decodeResource(getResources(),R.mipmap.icon)));
+            // 将Marker设置为贴地显示，可以双指下拉地图查看效果
+            final Marker marker = aMap.addMarker(markerOption);
+        }
+
+        AMap.OnMarkerClickListener markerClickListener = new AMap.OnMarkerClickListener() {
+            // marker 对象被点击时回调的接口
+            // 返回 true 则表示接口已响应事件，否则返回false
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                String title = marker.getTitle().trim();
+                Site site = null;
+                Iterator<Site> it= siteList.iterator();
+                while(it.hasNext()) {
+                    site = it.next();
+                    if (title == site.getName().trim()){//用title和site.name匹配来确定marker
+                        break;
+                    }
+                }
+                Toast.makeText(MainActivity.this,site.getName()+" "+site.getLatitude()+" "+site.getLongitude(),Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+        };
+        // 绑定 Marker 被点击事件
+        aMap.setOnMarkerClickListener(markerClickListener);
 
     }
     /**
