@@ -1,6 +1,5 @@
 package com.example.testmap;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import android.text.TextPaint;
@@ -12,6 +11,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.hb.dialog.myDialog.MyAlertInputDialog;
+
 import java.io.IOException;
 
 import okhttp3.MediaType;
@@ -20,25 +21,22 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 
-public class TousuActivity extends AppCompatActivity {
+public class ComplainActivity extends AppCompatActivity {
 
     private TextView textView;
     private Button button_xitongguzhang;
     private Button button_zhifu;
     private Button button_qita;
-    private Button button_cancel;
-    private Button button_commit;
+    private String info = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tousu);
+        setContentView(R.layout.activity_complain);
         textView = findViewById(R.id.tousu_text);
         button_xitongguzhang = findViewById(R.id.tousu_xitongguzhang);
         button_zhifu = findViewById(R.id.tousu_zhifu);
         button_qita = findViewById(R.id.tousu_qita);
-        button_commit = findViewById(R.id.button_commit);
-        button_cancel = findViewById(R.id.button_cancel);
         TextPaint textPaint = textView.getPaint();
         textPaint.setFakeBoldText(true);
         setListener();
@@ -49,8 +47,6 @@ public class TousuActivity extends AppCompatActivity {
         button_xitongguzhang.setOnClickListener(onClick);
         button_zhifu.setOnClickListener(onClick);
         button_qita.setOnClickListener(onClick);
-        button_cancel.setOnClickListener(onClick);
-        button_commit.setOnClickListener(onClick);
     }
 
     private class OnClick implements View.OnClickListener {
@@ -59,55 +55,63 @@ public class TousuActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.tousu_xitongguzhang:
-                    Thread thread_xitongguzhang = new Thread(new SubThread_xitongguzhang());
+                    Thread thread_xitongguzhang = new Thread(new SubThread());
+                    info = "设备故障";
                     thread_xitongguzhang.start();
-                    Toast toast_xitongguzhang = Toast.makeText(TousuActivity.this, "投诉提交成功！", Toast.LENGTH_SHORT);
+                    Toast toast_xitongguzhang = Toast.makeText(ComplainActivity.this, "投诉提交成功！", Toast.LENGTH_SHORT);
                     toast_xitongguzhang.setGravity(Gravity.CENTER, 0, 0);
                     toast_xitongguzhang.show();
                     break;
                 case R.id.tousu_zhifu:
-                    Thread thread_zhifu = new Thread(new SubThread_zhifu());
+                    Thread thread_zhifu = new Thread(new SubThread());
+                    info = "支付故障";
                     thread_zhifu.start();
-                    Toast toast_zhifu = Toast.makeText(TousuActivity.this, "投诉提交成功！", Toast.LENGTH_SHORT);
+                    Toast toast_zhifu = Toast.makeText(ComplainActivity.this, "投诉提交成功！", Toast.LENGTH_SHORT);
                     toast_zhifu.setGravity(Gravity.CENTER, 0, 0);
                     toast_zhifu.show();
                     break;
                 case R.id.tousu_qita:
-                    Intent intent = new Intent(TousuActivity.this, TousuActivity_edit.class);
-                    startActivity(intent);
+                    final MyAlertInputDialog myAlertInputDialog = new MyAlertInputDialog(ComplainActivity.this).builder()
+                            .setTitle("请输入您的投诉信息")
+                            .setEditText("");
+                    myAlertInputDialog.setPositiveButton("确认", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (null == myAlertInputDialog.getContentEditText()) {
+                                Toast toast_error = Toast.makeText(ComplainActivity.this, "输入信息不能为空", Toast.LENGTH_SHORT);
+                                toast_error.setGravity(Gravity.CENTER, 0, 0);
+                                toast_error.show();
+                                myAlertInputDialog.dismiss();
+                            } else {
+                                info = myAlertInputDialog.getContentEditText().toString();
+                                Thread thread_qita = new Thread(new SubThread());
+                                thread_qita.start();
+                                Toast toast_qita = Toast.makeText(ComplainActivity.this, "投诉提交成功！", Toast.LENGTH_SHORT);
+                                toast_qita.setGravity(Gravity.CENTER, 0, 0);
+                                toast_qita.show();
+                                myAlertInputDialog.dismiss();
+                            }
+                        }
+                    }).setNegativeButton("取消", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            myAlertInputDialog.dismiss();
+                        }
+                    });
+                    myAlertInputDialog.show();
                     break;
             }
         }
     }
 
-    private class SubThread_xitongguzhang implements Runnable {
+    private class SubThread implements Runnable {
 
         @Override
         public void run() {
             OkHttpClient client = new OkHttpClient();
             MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-            RequestBody body = RequestBody.create(mediaType, "openid=&complaints_content=设备故障");
-            Request request = new Request.Builder()
-                    .url("https://zhixiaogai.com/api/submit_complaints")
-                    .post(body)
-                    .addHeader("Content-Type", "application/x-www-form-urlencoded")
-                    .build();
-            try {
-                Response response = client.newCall(request).execute();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-        }
-    }
-
-    private class SubThread_zhifu implements Runnable {
-
-        @Override
-        public void run() {
-            OkHttpClient client = new OkHttpClient();
-            MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
-            RequestBody body = RequestBody.create(mediaType, "openid=&complaints_content=支付故障");
+            RequestBody body = RequestBody.create(mediaType, "openid=&complaints_content=" + info);
             Request request = new Request.Builder()
                     .url("https://zhixiaogai.com/api/submit_complaints")
                     .post(body)

@@ -21,14 +21,14 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 
-public class HezuowoshouActivity extends AppCompatActivity {
+public class JoinActivity extends AppCompatActivity {
 
     private static String string_url;
     private ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hezuowoshou);
+        setContentView(R.layout.activity_join);
         imageView = findViewById(R.id.hezuowoshou_text);
         Thread subThread = new Thread(new SubThread());
         subThread.start();

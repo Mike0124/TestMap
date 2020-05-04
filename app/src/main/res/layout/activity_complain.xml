@@ -4,32 +4,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".TousuActivity">
+    tools:context=".ComplainActivity">
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="142dp"
         android:background="#87CEEB"
         android:src="@mipmap/user_not_login"></ImageView>
 
     <TextView
         android:id="@+id/tousu_text"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginTop="20dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="10dp"
         android:gravity="center"
         android:text="@string/tousu_choose"
         android:textColor="#00bfff"
-        android:textSize="35sp"></TextView>
+        android:textSize="20sp"></TextView>
 
     <Button
         android:id="@+id/tousu_xitongguzhang"
         android:layout_width="match_parent"
         android:layout_height="115dp"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
         android:layout_marginRight="30dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/textview_information"
         android:drawableLeft="@mipmap/xitongguzhang"
         android:text="@string/tousu_question"
@@ -43,7 +43,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="30dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/textview_information"
         android:drawableLeft="@mipmap/zhifu"
         android:text="@string/tousu_zhifu"
@@ -57,7 +57,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginTop="10dp"
         android:layout_marginRight="30dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/textview_information"
         android:drawableLeft="@mipmap/qita"
         android:text="@string/tousu_qita"

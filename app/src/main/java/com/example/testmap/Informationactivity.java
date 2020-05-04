@@ -82,22 +82,22 @@ public class Informationactivity extends AppCompatActivity {
             Intent intent = null;
             switch (v.getId()) {
                 case R.id.xiaofei:
-                    intent = new Intent(Informationactivity.this, XiaofeiActivity.class);
+                    intent = new Intent(Informationactivity.this, ConsumeActivity.class);
                     break;
                 case R.id.fapiao:
-                    intent = new Intent(Informationactivity.this, FapiaoActivity.class);
+                    intent = new Intent(Informationactivity.this, InvoiceActivity.class);
                     break;
                 case R.id.tousu:
-                    intent = new Intent(Informationactivity.this, TousuActivity.class);
+                    intent = new Intent(Informationactivity.this, ComplainActivity.class);
                     break;
                 case R.id.amend:
                     intent = new Intent(Informationactivity.this, AmendActivity.class);
                     break;
                 case R.id.wendang:
-                    intent = new Intent(Informationactivity.this, WendangActivity.class);
+                    intent = new Intent(Informationactivity.this, QuestionActivity.class);
                     break;
                 case R.id.hezuowoshou:
-                    intent = new Intent(Informationactivity.this, HezuowoshouActivity.class);
+                    intent = new Intent(Informationactivity.this, JoinActivity.class);
                     break;
             }
             startActivity(intent);

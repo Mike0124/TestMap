@@ -27,6 +27,7 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.1.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
     implementation 'com.github.yuzhiqiang1993:zxing:2.2.8'
+    implementation 'com.github.HanHuoBin:BaseDialog:1.2.0'
     implementation("com.squareup.okhttp3:okhttp:4.6.0")
     implementation 'com.alibaba:fastjson:1.2.61'
     implementation 'com.alibaba:fastjson:1.1.71.android'
