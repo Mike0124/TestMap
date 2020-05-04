@@ -1,20 +1,22 @@
 package com.example.testmap;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -31,7 +33,8 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
-import com.example.testmap.JavaBean.Site;
+import com.example.testmap.JavaBean.Device;
+import com.github.javiersantos.bottomdialogs.BottomDialog;
 import com.yzq.zxinglibrary.android.CaptureActivity;
 import com.yzq.zxinglibrary.bean.ZxingConfig;
 import com.yzq.zxinglibrary.common.Constant;
@@ -51,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
     //初始化地图的值
     AMap aMap = null;
     MapView mapView = null;
-    List<Site> siteList = new ArrayList<>();//设备地点信息ArrayList
+    List<Device> deviceList = new ArrayList<>();//设备信息ArrayList
     private Bundle savedInstanceState;
     public AMapLocationClientOption mLocationOption = null;
     public AMapLocationClient mLocationClient = null;
@@ -190,20 +193,18 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         aMap.setMyLocationEnabled(true);
         //连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
 
-        Site orientalPearl = new Site("东方明珠", null, null, 121.499717, 31.239702);
-        siteList.add(orientalPearl);
-        Site SHU = new Site("上海大学", null, null,121.393603,31.315929);
-        siteList.add(SHU);
-        Iterator<Site> it=siteList.iterator();
-        while(it.hasNext()){
-            Site site = it.next();
-            LatLng latLng = new LatLng(site.getLatitude(),site.getLongitude());
-            MarkerOptions markerOption = new MarkerOptions();
-            markerOption.position(latLng);
-            markerOption.title(site.getName());
-            markerOption.snippet(null);
-            markerOption.icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
-                    .decodeResource(getResources(),R.mipmap.icon)));
+        setDeviceInfo();
+
+        Iterator<Device> it = deviceList.iterator();
+        while (it.hasNext()) {
+            Device device = it.next();
+            LatLng latLng = new LatLng(device.getLatitude(), device.getLongitude());
+            MarkerOptions markerOption = new MarkerOptions()
+                    .position(latLng)
+                    .title(device.getName())
+                    .snippet(device.getExactPosition())
+                    .icon(BitmapDescriptorFactory.fromBitmap(BitmapFactory
+                            .decodeResource(getResources(), R.mipmap.icon)));
             // 将Marker设置为贴地显示，可以双指下拉地图查看效果
             final Marker marker = aMap.addMarker(markerOption);
         }
@@ -214,15 +215,46 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
             @Override
             public boolean onMarkerClick(Marker marker) {
                 String title = marker.getTitle().trim();
-                Site site = null;
-                Iterator<Site> it= siteList.iterator();
-                while(it.hasNext()) {
-                    site = it.next();
-                    if (title == site.getName().trim()){//用title和site.name匹配来确定marker
+                Device device = null;
+                Iterator<Device> it = deviceList.iterator();
+                while (it.hasNext()) {
+                    device = it.next();
+                    if (title == device.getName().trim()) {//用title和site.name匹配来确定marker
                         break;
                     }
                 }
-                Toast.makeText(MainActivity.this,site.getName()+" "+site.getLatitude()+" "+site.getLongitude(),Toast.LENGTH_SHORT).show();
+                //BottomDialogs
+                LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View customView = inflater.inflate(R.layout.custom_view, null);
+                TextView customText = (TextView) customView.findViewById(R.id.custom_text_view1);
+                customText.setText(device.getFullName());
+                customText = (TextView) customView.findViewById(R.id.custom_text_view2);
+                customText.setText("营业时间：" + device.getBusinessHours());
+                Button dialButton = (Button) customView.findViewById(R.id.dial_button);
+                Button detailsButton = (Button) customView.findViewById(R.id.details_button);
+                final Device finalDevice = device;
+                final Device finalDevice1 = device;
+                final Device finalDevice2 = device;
+                detailsButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String userName = null;
+                        String deviceName = finalDevice1.getName();
+                        String exactPositon = finalDevice2.getExactPosition();
+                        showDetails(userName, deviceName, exactPositon);
+                    }
+                });
+                dialButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        callPhone(finalDevice.getTelNum());
+                    }
+                });
+                new BottomDialog.Builder(MainActivity.this)//BottomDialogs
+                        .setTitle(device.getName())
+                        .setCustomView(customView)
+                        .show();
+
                 return false;
             }
 
@@ -231,6 +263,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         aMap.setOnMarkerClickListener(markerClickListener);
 
     }
+
     /**
      * 定位成功后回调函数
      */
@@ -248,6 +281,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 
         }
     }
+
     /**
      * 激活定位
      */
@@ -264,6 +298,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
             mlocationClient.startLocation();
         }
     }
+
     /**
      * 停止定位
      */
@@ -277,6 +312,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         mlocationClient = null;
         mLocationOption = null;
     }
+
     //扫描二维码
     public void scan() {
         mscanbutton = findViewById(R.id.scan_button);
@@ -307,6 +343,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
             }
         });
     }
+
     //登录
     public void login() {
         mloginbutton = findViewById(R.id.Login);
@@ -330,9 +367,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
                 if (null != needRequestPermissonList
                         && needRequestPermissonList.size() > 0) {
                     String[] array = needRequestPermissonList.toArray(new String[needRequestPermissonList.size()]);
-                    Method method = getClass().getMethod("requestPermissions", new Class[]{String[].class,
-                            int.class});
-
+                    Method method = getClass().getMethod("requestPermissions", new Class[]{String[].class, int.class});
                     method.invoke(this, array, PERMISSON_REQUESTCODE);
                 }
             }
@@ -369,5 +404,39 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
             }
         }
         return needRequestPermissonList;
+    }
+
+    void setDeviceInfo() {
+        Device orientalPearl = new Device("东方明珠电视塔", "上海市浦东新区陆家嘴街道东方明珠广播电视塔", "8:00:00-23:00:00", 121.499717, 31.239702, "16227394639", "一楼卫生间");
+        deviceList.add(orientalPearl);
+        Device joyCity = new Device("大悦城", "上海市静安区北站街道开封路中粮天悦壹号", "9:00:00-22:30:00", 121.472143, 31.243513, "16228399073", "一楼卫生间");
+        deviceList.add(joyCity);
+        Device globalHarbor = new Device("环球港", null, null, 121.412636, 31.233221, null, null);
+        deviceList.add(globalHarbor);
+        Device shu = new Device("上海大学", null, null, 121.457689, 31.275837, null, null);
+        deviceList.add(shu);
+        Device yanChangRMS = new Device("1212", null, null, 121.455329, 31.271675, null, null);
+        deviceList.add(yanChangRMS);
+        Device daNingA = new Device("1212", null, null, 121.449489, 31.275846, null, null);
+        deviceList.add(daNingA);
+        Device yangSiMS = new Device("杨思中学", null, null, 121.494689, 31.156454, null, null);
+        deviceList.add(yangSiMS);
+        final Device secs = new Device("建筑工程学校", null, null, 121.461276, 31.062121, null, null);
+        deviceList.add(secs);
+    }
+
+    private void callPhone(String phone) {//打营业电话
+        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    private void showDetails(String username, String deviceName, String exactPosition) {//显示设备信息
+        Intent intent = new Intent(MainActivity.this, DeviceDetailsActivity.class);
+        intent.putExtra("userName", username);
+        intent.putExtra("deviceName", deviceName);
+        intent.putExtra("exactPosition", exactPosition);
+
+        startActivity(intent);
     }
 }

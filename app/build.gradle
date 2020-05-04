@@ -35,4 +35,5 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation files('libs/AMap3DMap_7.1.0_AMapSearch_7.1.0_AMapLocation_4.8.0_20191210.jar')
+    implementation 'com.github.javiersantos:BottomDialogs:1.2.1'
 }
