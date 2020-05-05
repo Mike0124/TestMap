@@ -1,9 +1,12 @@
 package com.example.testmap;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
@@ -11,6 +14,8 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -131,6 +136,9 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
                 checkPermissions(needPermissions);
             }
         }
+        if (!isLocationEnabled()) {
+            toOpenGPS(this);
+        }
 //        initLocationService();//初始化高德地图和定位
         aMap.setLocationSource(this);
         // 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
@@ -182,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         myLocationStyle.interval(2000);
         myLocationStyle.strokeColor(Color.BLACK);
         myLocationStyle.radiusFillColor(Color.argb(100, 0, 0, 180));
-        myLocationStyle.strokeWidth(1.0f);
+        myLocationStyle.strokeWidth(0.6f);//设置定位蓝点精度圈的边框宽度的方法。
         //设置定位蓝点的Style
         aMap.setMyLocationStyle(myLocationStyle);
         //设置默认定位按钮是否显示。
@@ -191,6 +199,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         aMap.setLocationSource(this);
         // 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
         aMap.setMyLocationEnabled(true);
+        aMap.showIndoorMap(true);     //true：显示室内地图；false：不显示；
         //连续定位、且将视角移动到地图中心点，定位点依照设备方向旋转，并且会跟随设备移动。（1秒1次定位）如果不设置myLocationType，默认也会执行此种模式。
 
         setDeviceInfo();
@@ -438,5 +447,46 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         intent.putExtra("exactPosition", exactPosition);
 
         startActivity(intent);
+    }
+
+    /**
+     * 判断用户是否开启位置信息
+     * @return
+     */
+    public boolean isLocationEnabled() {
+        int locationMode = 0;
+        String locationProviders;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            try {
+                locationMode = Settings.Secure.getInt(getContentResolver(), Settings.Secure.LOCATION_MODE);
+            } catch (Settings.SettingNotFoundException e) {
+                e.printStackTrace();
+                return false;
+            }
+            return locationMode != Settings.Secure.LOCATION_MODE_OFF;
+        } else {
+            locationProviders = Settings.Secure.getString(getContentResolver(), Settings.Secure.LOCATION_PROVIDERS_ALLOWED);
+            return !TextUtils.isEmpty(locationProviders);
+        }
+    }
+
+    /**
+     * 提示用户去开启定位服务
+     * @param activity
+     */
+    public static void toOpenGPS(final Activity activity) {
+        new AlertDialog.Builder(activity)
+                .setTitle("提示")
+                .setMessage("手机定位服务未开启，无法获取到您的准确位置信息，是否前往开启？")
+                .setNegativeButton("取消", null)
+                .setPositiveButton("去开启", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        activity.startActivity(intent);
+                        dialogInterface.dismiss();
+                    }
+                })
+                .show();
     }
 }
