@@ -40,13 +40,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Informationactivity"></activity>
-        <activity android:name=".AmendActivity"></activity>
+        <activity android:name=".InformationActivity"></activity>
         <activity android:name=".InvoiceActivity"></activity>
         <activity android:name=".JoinActivity"></activity>
         <activity android:name=".ConsumeActivity"></activity>
         <activity android:name=".QuestionActivity"></activity>
         <activity android:name=".ComplainActivity"></activity>
+        <activity android:name=".DeviceDetailsActivity"></activity>
     </application>
 
 </manifest>

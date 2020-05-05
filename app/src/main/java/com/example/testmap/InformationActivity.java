@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class Informationactivity extends AppCompatActivity {
+public class InformationActivity extends AppCompatActivity {
 
     private TextView mbtnusertext;
     private Button mbtnxiaofei;
@@ -75,19 +75,19 @@ public class Informationactivity extends AppCompatActivity {
             Intent intent = null;
             switch (v.getId()) {
                 case R.id.xiaofei:
-                    intent = new Intent(Informationactivity.this, ConsumeActivity.class);
+                    intent = new Intent(InformationActivity.this, ConsumeActivity.class);
                     break;
                 case R.id.fapiao:
-                    intent = new Intent(Informationactivity.this, InvoiceActivity.class);
+                    intent = new Intent(InformationActivity.this, InvoiceActivity.class);
                     break;
                 case R.id.tousu:
-                    intent = new Intent(Informationactivity.this, ComplainActivity.class);
+                    intent = new Intent(InformationActivity.this, ComplainActivity.class);
                     break;
                 case R.id.wendang:
-                    intent = new Intent(Informationactivity.this, QuestionActivity.class);
+                    intent = new Intent(InformationActivity.this, QuestionActivity.class);
                     break;
                 case R.id.hezuowoshou:
-                    intent = new Intent(Informationactivity.this, JoinActivity.class);
+                    intent = new Intent(InformationActivity.this, JoinActivity.class);
                     break;
             }
             startActivity(intent);

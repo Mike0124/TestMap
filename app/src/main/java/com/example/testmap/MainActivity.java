@@ -2,7 +2,6 @@ package com.example.testmap;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
@@ -383,7 +382,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         mloginbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, Informationactivity.class);
+                Intent intent = new Intent(MainActivity.this, InformationActivity.class);
                 startActivity(intent);
             }
         });
