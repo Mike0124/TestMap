@@ -6,4 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".ScanActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_inform"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_blue_light"
+        app:popupTheme="@style/Theme.AppCompat.Light"></androidx.appcompat.widget.Toolbar>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -11,6 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.hb.dialog.myDialog.MyAlertInputDialog;
 
@@ -33,11 +34,15 @@ public class ComplainActivity extends AppCompatActivity {
     private Drawable drawable_zhifu;
     private Drawable drawable_qita;
     private MyAlertInputDialog myAlertInputDialog;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complain);
+        toolbar = findViewById(R.id.toolbar_inform);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         textView = findViewById(R.id.tousu_text);
         button_xitongguzhang = findViewById(R.id.tousu_xitongguzhang);
         button_zhifu = findViewById(R.id.tousu_zhifu);

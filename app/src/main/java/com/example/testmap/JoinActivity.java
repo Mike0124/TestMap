@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -25,10 +26,15 @@ public class JoinActivity extends AppCompatActivity {
 
     private String string_url;
     private ImageView imageView;
+    private Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_join);
+        toolbar = findViewById(R.id.toolbar_inform);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         imageView = findViewById(R.id.hezuowoshou_text);
         Thread subThread = new Thread(new SubThread());
         subThread.start();
@@ -39,13 +45,13 @@ public class JoinActivity extends AppCompatActivity {
         }
     }
 
-    private class SubThread implements Runnable{
-        public void run(){
+    private class SubThread implements Runnable {
+        public void run() {
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
                     .url("https://zhixiaogai.com/api/query_league_cooperation")
                     .get()
-                    .addHeader("Content-Type","application/x-www-form-urlencoded")
+                    .addHeader("Content-Type", "application/x-www-form-urlencoded")
                     .build();
             try {
                 Response response = client.newCall(request).execute();
@@ -64,13 +70,13 @@ public class JoinActivity extends AppCompatActivity {
         }
     }
 
-    protected static Bitmap getHttpBitmap(String url){
+    protected static Bitmap getHttpBitmap(String url) {
         URL myFileURL;
         Bitmap bitmap = null;
-        try{
+        try {
             myFileURL = new URL(url);
             //获得连接
-            HttpURLConnection conn=(HttpURLConnection)myFileURL.openConnection();
+            HttpURLConnection conn = (HttpURLConnection) myFileURL.openConnection();
             //设置超时时间为6000毫秒，conn.setConnectionTiem(0);表示没有时间限制
             conn.setConnectTimeout(6000);
             //连接设置获得数据流
@@ -85,7 +91,7 @@ public class JoinActivity extends AppCompatActivity {
             bitmap = BitmapFactory.decodeStream(is);
             //关闭数据流
             is.close();
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return bitmap;

@@ -40,13 +40,41 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".InformationActivity"></activity>
-        <activity android:name=".InvoiceActivity"></activity>
-        <activity android:name=".JoinActivity"></activity>
-        <activity android:name=".ConsumeActivity"></activity>
-        <activity android:name=".QuestionActivity"></activity>
-        <activity android:name=".ComplainActivity"></activity>
-        <activity android:name=".DeviceDetailsActivity"></activity>
+        <activity android:name=".InformationActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"></meta-data>
+        </activity>
+        <activity android:name=".InvoiceActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".InformationActivity"></meta-data>
+        </activity>
+        <activity android:name=".JoinActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".InformationActivity"></meta-data>
+        </activity>
+        <activity android:name=".ConsumeActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".InformationActivity"></meta-data>
+        </activity>
+        <activity android:name=".QuestionActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".InformationActivity"></meta-data>
+        </activity>
+        <activity android:name=".ComplainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".InformationActivity"></meta-data>
+        </activity>
+        <activity android:name=".DeviceDetailsActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity"></meta-data>
+        </activity>
     </application>
 
 </manifest>

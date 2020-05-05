@@ -3,11 +3,13 @@ package com.example.testmap;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 public class InformationActivity extends AppCompatActivity {
 
@@ -24,12 +26,16 @@ public class InformationActivity extends AppCompatActivity {
     private Drawable drawable_tousu;
     private Drawable drawable_wendang;
     private Drawable drawable_hezuowoshou;
+    private Toolbar toolbar;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_information);
+        toolbar = findViewById(R.id.toolbar_inform);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mbtnxiaofei = findViewById(R.id.xiaofei);
         mbtnfapiao = findViewById(R.id.fapiao);
         mbtntousu = findViewById(R.id.tousu);

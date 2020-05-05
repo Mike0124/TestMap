@@ -175,7 +175,6 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         if (null != mlocationClient) {
             mlocationClient.onDestroy();
         }
-        mBluetoothAdapter.disable();//关闭蓝牙
     }
 
     @Override

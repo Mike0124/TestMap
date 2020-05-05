@@ -1,17 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".QuestionActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_inform"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_blue_light"
+        app:popupTheme="@style/Theme.AppCompat.Light"></androidx.appcompat.widget.Toolbar>
+
     <GridView
         android:id="@+id/question"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:columnWidth="180dp"
         android:layout_margin="10dp"
+        android:columnWidth="140dp"
         android:numColumns="2"
         android:stretchMode="spacingWidthUniform"></GridView>
 </LinearLayout>

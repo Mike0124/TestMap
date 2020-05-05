@@ -8,6 +8,7 @@ import android.widget.GridView;
 import android.widget.SimpleAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -31,11 +32,15 @@ public class QuestionActivity extends AppCompatActivity {
     private String[] content = new String[6];
     private String[] answer = new String[6];
     private MyAlertDialog myAlertDialog;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_question);
+        toolbar = findViewById(R.id.toolbar_inform);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         GridView gridView = findViewById(R.id.question);
         init_data();
         String[] from = {"text", "img"};

@@ -1,6 +1,7 @@
 package com.example.testmap;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,10 +9,14 @@ import android.widget.TextView;
 
 public class DeviceDetailsActivity extends AppCompatActivity {
 
+    private Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_deivce_details);
+        toolbar = findViewById(R.id.toolbar_inform);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         Intent intent = getIntent();
         String userName = intent.getStringExtra("userName");
         String deviceName = intent.getStringExtra("deviceName");

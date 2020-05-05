@@ -1,39 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".InvoiceActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_inform"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_blue_light"
+        app:popupTheme="@style/Theme.AppCompat.Light"></androidx.appcompat.widget.Toolbar>
+
     <TextView
         android:id="@+id/details1"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:gravity="left"
-        android:textColor="@color/dialog_white"
         android:background="#87CEEB"
-        android:paddingTop="10dp">
-    </TextView>
+        android:gravity="left"
+        android:paddingTop="10dp"
+        android:textColor="@color/dialog_white"></TextView>
+
     <TextView
         android:id="@+id/details2"
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        android:background="#87CEEB"
         android:gravity="center"
         android:textColor="@color/dialog_white"
-        android:textStyle="bold"
         android:textSize="20dp"
-        android:background="#87CEEB">
-    </TextView>
+        android:textStyle="bold"></TextView>
+
     <TextView
         android:id="@+id/details3"
         android:layout_width="match_parent"
         android:layout_height="80dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="40dp"
         android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:gravity="center"
         android:background="@drawable/button_scan"
+        android:gravity="center"
         android:textColor="@color/dialog_white"
         android:textSize="20dp" />
 </LinearLayout>
