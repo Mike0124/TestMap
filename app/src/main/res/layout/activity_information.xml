@@ -78,24 +78,6 @@
         android:textSize="20sp"></Button>
 
     <Button
-        android:id="@+id/amend"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="10dp"
-        android:layout_weight="1"
-        android:background="@drawable/textview_inform"
-        android:drawableStart="@mipmap/amend"
-        android:drawableLeft="@mipmap/amend"
-        android:drawableEnd="@mipmap/right"
-        android:drawableRight="@mipmap/right"
-        android:gravity="center"
-        android:padding="10dp"
-        android:text="@string/amend"
-        android:textSize="20sp"></Button>
-
-    <Button
         android:id="@+id/wendang"
         android:layout_width="match_parent"
         android:layout_height="100dp"

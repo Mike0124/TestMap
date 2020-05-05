@@ -23,7 +23,7 @@ import okhttp3.Response;
 
 public class JoinActivity extends AppCompatActivity {
 
-    private static String string_url;
+    private String string_url;
     private ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
