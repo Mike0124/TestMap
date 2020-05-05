@@ -2,9 +2,12 @@ package com.example.testmap;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -80,12 +83,16 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 //            Manifest.permission.WRITE_EXTERNAL_STORAGE,
 //            Manifest.permission.READ_EXTERNAL_STORAGE,
 //            Manifest.permission.READ_PHONE_STATE
+            Manifest.permission.BLUETOOTH,
+            Manifest.permission.BLUETOOTH_ADMIN
     };
     /**
      * 判断是否需要检测，防止不停的弹框
      */
     private boolean isNeedCheck = true;
     private static final int PERMISSON_REQUESTCODE = 0;
+//    public static final int REQUEST_ENABLE_BT = 1;
+    BluetoothAdapter mBluetoothAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,8 +108,16 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 //                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
 //                    Manifest.permission.READ_EXTERNAL_STORAGE,
 //                    Manifest.permission.READ_PHONE_STATE,
-                    BACKGROUND_LOCATION_PERMISSION
+                    BACKGROUND_LOCATION_PERMISSION,
+                    Manifest.permission.BLUETOOTH,
+                    Manifest.permission.BLUETOOTH_ADMIN
             };
+        }
+        if (Build.VERSION.SDK_INT >= 23
+                && getApplicationInfo().targetSdkVersion >= 23) {
+            if (isNeedCheck) {
+                checkPermissions(needPermissions);
+            }
         }
 
         initLocationService();//初始化高德地图和定位
@@ -130,16 +145,17 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         super.onResume();       //重新绘制加载地图
         deactivate();
         mapView.onResume();
-        if (Build.VERSION.SDK_INT >= 23
-                && getApplicationInfo().targetSdkVersion >= 23) {
-            if (isNeedCheck) {
-                checkPermissions(needPermissions);
+
+        //若定位权限通过，判断是否开启位置信息
+        if (Build.VERSION.SDK_INT > 22) {        //判断手机版本是否在6.0以上，如在以上则需要动态申请权限
+            if (ContextCompat.checkSelfPermission(MainActivity.this,
+                    Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                if (!isLocationEnabled()) {
+                    toOpenGPS(this);
+                }
             }
         }
-        if (!isLocationEnabled()) {
-            toOpenGPS(this);
-        }
-//        initLocationService();//初始化高德地图和定位
+
         aMap.setLocationSource(this);
         // 设置为true表示启动显示定位蓝点，false表示隐藏定位蓝点并不进行定位，默认是false。
         aMap.setMyLocationEnabled(true);
@@ -160,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         if (null != mlocationClient) {
             mlocationClient.onDestroy();
         }
+        mBluetoothAdapter.disable();//关闭蓝牙
     }
 
     @Override
@@ -328,9 +345,15 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
         mscanbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ZxingConfig config = new ZxingConfig();
-                config.setShowAlbum(false); //是否显示相册
-                config.setFullScreenScan(false);//是否全屏扫描  默认为true  设为false则只会在扫描框中扫描
+                mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
+                // 启用蓝牙 ( 2.Enable Bluetooth )
+                if (!mBluetoothAdapter.isEnabled()) {
+                    toOpenBT(MainActivity.this);
+                }
+                if (mBluetoothAdapter.isEnabled()) {
+                    ZxingConfig config = new ZxingConfig();
+                    config.setShowAlbum(false); //是否显示相册
+                    config.setFullScreenScan(false);//是否全屏扫描  默认为true  设为false则只会在扫描框中扫描
 //                if (Build.VERSION.SDK_INT > 22) {        //判断手机版本是否在6.0以上，如在以上则需要动态申请权限
 //                    if (ContextCompat.checkSelfPermission(MainActivity.this,
 //                            Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -346,9 +369,10 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
 //                    intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
 //                    startActivityForResult(intent, REQUEST_CODE_SCAN);
 //                }
-                Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
-                intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
-                startActivityForResult(intent, REQUEST_CODE_SCAN);
+                    Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
+                    intent.putExtra(Constant.INTENT_ZXING_CONFIG, config);
+                    startActivityForResult(intent, REQUEST_CODE_SCAN);
+                }
             }
         });
     }
@@ -484,6 +508,22 @@ public class MainActivity extends AppCompatActivity implements LocationSource, A
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                         activity.startActivity(intent);
+                        dialogInterface.dismiss();
+                    }
+                })
+                .show();
+    }
+
+    public static void toOpenBT(final Activity activity) {
+        new AlertDialog.Builder(activity)
+                .setTitle("提示")
+                .setMessage("手机蓝牙未开启，无法连接设备，是否前往开启？")
+                .setNegativeButton("取消", null)
+                .setPositiveButton("去开启", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Intent enableBtIntent = new Intent(Settings.ACTION_BLUETOOTH_SETTINGS);
+                        activity.startActivity(enableBtIntent);
                         dialogInterface.dismiss();
                     }
                 })

@@ -47,7 +47,7 @@
         <activity android:name=".ConsumeActivity" />
         <activity android:name=".QuestionActivity" />
         <activity android:name=".ComplainActivity" />
-        <activity android:name=".DeviceDetailsActivity"/>
+        <activity android:name=".DeviceDetailsActivity" />
     </application>
 
 </manifest>
